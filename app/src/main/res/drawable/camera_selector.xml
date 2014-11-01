@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+	
+	<item android:drawable="@drawable/sdk_ic_camera_disabled" android:state_enabled="false"/>
+    <item android:drawable="@drawable/sdk_ic_camera_selected_tap" android:state_enabled="true" android:state_selected="true" android:state_pressed="true"/>
+    <item android:drawable="@drawable/sdk_ic_camera_selected" android:state_enabled="true" android:state_selected="true" android:state_pressed="false"/>
+    <item android:drawable="@drawable/sdk_ic_camera_tap" android:state_enabled="true" android:state_selected="false" android:state_pressed="true"/>
+    <item android:drawable="@drawable/sdk_ic_camera" android:state_enabled="true" android:state_selected="false" android:state_pressed="false"/>
+	<item android:drawable="@drawable/sdk_ic_camera"/>
+    
+</selector>

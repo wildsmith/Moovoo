@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="com.ooVoo.oovoosample.VideoCallActivity.LocationableGLSurfaceView">
+        <attr name="locationIndex" format="integer" />
+    </declare-styleable>
+    <declare-styleable name="ButtonBarContainerTheme">
+        <attr name="buttonBarStyle" format="reference" />
+        <attr name="buttonBarButtonStyle" format="reference" />
+    </declare-styleable>
+<declare-styleable name="DynamicAbsoluteLayout_Layout">
+        <attr name="layout_x" format="dimension" />
+        <attr name="layout_y" format="dimension" />
+    </declare-styleable>
+</resources>

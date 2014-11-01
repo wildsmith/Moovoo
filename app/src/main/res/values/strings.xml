@@ -1,3 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Moovoo</string>
+
+    <string name="app_name">ooVooSample</string>
+    <string name="settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="join">Join</string>
+    <string name="sessionId">Conference ID:</string>
+    <string name="sdkVersion">SDK Version:</string>
+    <string name="appId">App ID:</string>
+    <string name="avsIp">AVS IP:</string>
+    <string name="settings_screen_name">Settings</string>
+    <string name="ooVooTag">ooVooSample</string>
+    <string name="ooVooUserSettings">ooVooUserSettings</string>
+    <string name="activeUsers">Active Users:</string>
+    <string name="information_screen_name">Information</string>
+    <string name="alerts">Alerts</string>
+    <string name="video_call_screen_name">Video Call</string>
+    <string name="volume">Volume</string>
+    <string name="log_visibility">LogVisibility</string>
+    <string name="enter_effect_key">EnterEffect</string>
+    <string name="exit_effect_key">ExitEffect</string>
+    <string name="camera">C</string>
+    <string name="microphone">M</string>
+    <string name="speakers">S</string>
+    <string name="end_of_call">E</string>
+    <string name="session_id_settings_field">SessionID</string>
+    <string name="avs_ip_settings_field">AvsIP</string>
+    <string name="appIdPersisted">AppId</string>
+    <string name="appTokenPersisted">AppToken</string>
+    <string name="camera_type_settings_field">CameraType</string>
+    <string name="microphone_type_settings_field">MicrophoneType</string>
+    <string name="speakers_type_settings_field">SpeakersType</string>
+    <string name="usrID">User ID:</string>
+    <string name="title_activity_alerts">Alerts</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="CloseAlertButtonCaption">Close</string>
+    <string name="resolution">Resolution</string>
+    <string name="displayName">Display Name:</string>
+    <string name="appToken">App Token:</string>
+  <string name="menu_settings">Settings</string>
+  <string name="menu_information">Information</string>
+  <string name="title_me">Me</string>
+  <string name="please_wait">Please wait...</string>
+  <string name="settings_camera">Camera:</string>
+  <string name="settings_mic">Microphone:</string>
+  <string name="settings_speaker">Speaker:</string>
+  <string name="info_participants">Participants:</string>
+  <string name="video_error_msg">Video cannot be viewed.</string>
+  <string name="messenger_screen_name">Messages</string>
+  <string name="settings_base_url">Base URL:</string>
+  <string name="base_url_settings_field">BaseURL</string>
+  <string name="message_field_hint">"Write here"</string>
+  <string name="message_button_send">"Send"</string>
+  <string name="log_level">"SDK Log Level"</string>
+  <string name="initialization_wait">"Initialization, please wait"</string>
+  
+
 </resources>

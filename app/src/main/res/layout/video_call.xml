@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" 
+    android:background="@android:color/black">
+
+	<include layout="@layout/video_call_surfaces" 
+	    android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+			    
+    <RelativeLayout
+        android:id="@+id/devicesControlLayout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/vc_controller_height"
+        android:background="@color/controller_grey"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/microphoneButton"
+            android:layout_width="@dimen/vc_controller_button_size"
+            android:layout_height="@dimen/vc_controller_button_size"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="2dp"
+            android:background="@drawable/microphone_selector" />
+
+        <Button
+            android:id="@+id/speakersButton"
+            android:layout_width="@dimen/vc_controller_button_size"
+            android:layout_height="@dimen/vc_controller_button_size"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="2dp"
+            android:layout_toRightOf="@id/microphoneButton"
+            android:background="@drawable/speakers_selector" />
+
+        <Button
+            android:id="@+id/cameraButton"
+            android:layout_width="@dimen/vc_controller_button_size"
+            android:layout_height="@dimen/vc_controller_button_size"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="2dp"
+            android:layout_toRightOf="@id/speakersButton"
+            android:background="@drawable/camera_selector" />
+
+        <Button
+            android:id="@+id/endOfCallButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/controller_hangup_selector" 
+        	android:layout_gravity="center_vertical"        
+       	 	android:cropToPadding="true"
+       	 	android:keepScreenOn="true" />
+
+        <Spinner
+            android:id="@+id/resolutionSpinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="2dp"
+            android:layout_toRightOf="@id/endOfCallButton" />
+        
+        <Spinner
+            android:id="@+id/filterSpinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="2dp"
+            android:layout_toRightOf="@id/resolutionSpinner" 
+            android:visibility="gone" />
+        
+        <Button
+            android:id="@+id/bubbleButton"
+            android:layout_width="@dimen/vc_controller_button_size"
+            android:layout_height="@dimen/vc_controller_button_size"
+            android:background="@drawable/bubble_selector" 
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="20dip"/>
+
+    </RelativeLayout>
+
+</LinearLayout>

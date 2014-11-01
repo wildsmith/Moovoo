@@ -1,0 +1,146 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" 
+    android:padding="@dimen/activity_padding">
+
+    <TextView
+        android:id="@+id/sessionIdSettingsLabel"
+        android:layout_width="@dimen/main_row_label_width"
+        android:layout_height="@dimen/main_row_height"
+        android:layout_marginTop="10dp"
+        android:text="@string/sessionId"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    <EditText
+        android:id="@+id/sessionIdText"
+        android:layout_width="@dimen/main_row_text_width"
+        android:layout_height="@dimen/main_row_height"
+        android:layout_toRightOf="@id/sessionIdSettingsLabel"
+        android:layout_alignBaseline="@id/sessionIdSettingsLabel"
+        android:layout_alignParentRight="true"
+        android:ems="5"
+        android:inputType="text"
+        android:singleLine="true"
+        android:textAppearance="?android:attr/textAppearanceSmall"  />
+    
+    <TextView
+        android:id="@+id/displayNameLabel"
+        android:layout_width="@dimen/main_row_label_width"
+        android:layout_height="@dimen/main_row_height"
+        android:layout_alignLeft="@+id/sessionIdSettingsLabel"
+        android:layout_below="@+id/sessionIdSettingsLabel"
+        android:layout_marginTop="10dp"
+        android:text="@string/displayName"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+    
+    
+     <EditText
+        android:id="@+id/displayNameText"
+        android:layout_width="@dimen/main_row_text_width"
+        android:layout_height="@dimen/main_row_height"
+        android:layout_alignBaseline="@id/displayNameLabel"
+        android:layout_toRightOf="@id/displayNameLabel"
+        android:layout_alignParentRight="true"
+        android:ems="5"
+        android:inputType="text"
+        android:singleLine="true" 
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+    
+    <!-- <TextView
+        android:id="@+id/UserIDLabel"
+        android:layout_width="@dimen/main_row_label_width"
+        android:layout_height="@dimen/main_row_height"
+        android:layout_alignLeft="@+id/avsIpLabel"
+        android:layout_below="@+id/appIdLabel"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="19dp"
+        android:text="@string/usrID"
+        android:textAppearance="?android:attr/textAppearanceSmall" /> -->
+
+    <!-- <TextView
+        android:id="@+id/UserIDText"
+        android:layout_width="@dimen/main_row_label_width"
+        android:layout_height="@dimen/main_row_height"
+        android:layout_alignBaseline="@+id/UserIDLabel"
+        android:layout_alignBottom="@+id/UserIDLabel"
+        android:layout_alignParentRight="true"
+        android:ems="10"
+        android:inputType="text"
+        android:singleLine="true" />
+ -->
+    <!-- <TextView
+        android:id="@+id/avsIpLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/UserIDText"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="18dp"
+        android:text="@string/avsIp"
+        android:textAppearance="?android:attr/textAppearanceSmall" /> -->
+
+	<com.ooVoo.oovoosample.Common.ParticipantVideoSurface
+	        android:id="@+id/preview_layout_id"
+	        android:layout_width="match_parent"
+	        android:layout_height="match_parent"
+	        android:layout_marginBottom="70dp"
+	        android:layout_below="@+id/displayNameLabel">
+	        
+	    <ImageView
+            android:id="@+id/myAvatar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/vc_surface_margin"
+            android:src="@drawable/an_im_vc_place_holder"
+            android:background="@color/image_holder_bg" />
+	    
+		<android.opengl.GLSurfaceView
+	            android:id="@+id/myVideoSurface"
+	            android:layout_width="match_parent"
+	            android:layout_height="match_parent"
+	            android:layout_margin="@dimen/vc_surface_margin"
+	            android:visibility="invisible" />
+
+        <android:TextView
+            android:id="@+id/video_info"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="20dp"
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/vc_surface_margin"
+            android:background="@android:color/black"
+            android:gravity="center"
+            android:textColor="@android:color/white" 
+            android:text="@string/video_error_msg"
+            android:visibility="gone"/>
+        
+        <android:TextView
+            android:id="@+id/previewName"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/vc_surface_text_height"
+            android:layout_alignParentBottom="true"
+            android:layout_gravity="top"
+            android:layout_marginBottom="@dimen/vc_surface_margin"
+            android:layout_marginLeft="@dimen/vc_surface_margin"
+            android:layout_marginRight="@dimen/vc_surface_margin"
+            android:background="@drawable/white_name_border"
+            android:gravity="center"
+            android:singleLine="true"
+            android:text="@string/title_me"
+            android:textColor="@android:color/white" />
+
+	</com.ooVoo.oovoosample.Common.ParticipantVideoSurface>
+    
+    <Button
+        android:id="@+id/joinButton1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="10dp"
+        android:text="@string/join" 
+        android:textColor="@android:color/white"
+        android:background="@drawable/join_btn_selector"/>
+
+</RelativeLayout>

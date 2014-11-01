@@ -21,4 +21,8 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile files('libs/BT200Ctrl.jar')
+    compile files('libs/oovooSdk.jar')
+    compile files('libs/oovooSdk-doc.jar')
+    compile files('libs/oovooSdk_sample.jar')
 }

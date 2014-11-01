@@ -1,0 +1,19 @@
+<resources>
+
+    <color name="black_overlay">#66000000</color>
+	<color name="controller_grey">#EAEAEA</color>	
+	<color name="image_holder_bg">#EAEAEA</color>
+	
+	<color name="text_color">#FFF</color>
+	<color name="text_field_color">#000</color>
+	<color name="text_shadow">#FFF</color>
+	<color name="list_view_bg">#DADFEE</color>
+
+	<color name="send_light_color">#8897BF</color>
+	<color name="send_meduim_color">#5D6CA5</color>
+	<color name="send_dark_color">#515F9F</color>
+
+	<color name="bar_dark_color">#CECECE</color>
+	<color name="bar_meduim_color">#DFDEE0</color>
+	<color name="bar_light_color">#F2F2F2</color>
+</resources>

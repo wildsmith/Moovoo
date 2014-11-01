@@ -1,0 +1,16 @@
+<resources>
+
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+	<dimen name="activity_padding">16dp</dimen>
+    <dimen name="vc_surface_text_height">26dp</dimen>
+    <dimen name="vc_surface_margin">5dp</dimen>
+    <dimen name="vc_controller_height">55dip</dimen>
+    <dimen name="vc_controller_button_size">42dip</dimen>
+    <dimen name="main_row_height">40dip</dimen>
+    <dimen name="main_row_label_width">120dip</dimen>
+    <dimen name="main_row_text_width">220dip</dimen>
+    
+    
+</resources>

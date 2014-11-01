@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.ooVoo.oovoosample.VideoCall.VCParticipantsController xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/participants_controller"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <com.ooVoo.oovoosample.Common.ParticipantVideoSurface
+        android:id="@+id/preview_layout_id"
+        android:layout_width="0px"
+        android:layout_height="match_parent"
+        android:layout_weight="1" >
+
+        <ImageView
+            android:id="@+id/myAvatar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/vc_surface_margin"
+            android:src="@drawable/an_im_vc_place_holder"
+            android:background="@color/image_holder_bg" />
+
+        <android.opengl.GLSurfaceView
+            android:id="@+id/myVideoSurface"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/vc_surface_margin"
+            android:visibility="invisible" />
+
+        <android:TextView
+            android:id="@+id/video_info"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="20dp"
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/vc_surface_margin"
+            android:background="@android:color/black"
+            android:gravity="center"
+            android:textColor="@android:color/white" 
+            android:text="@string/video_error_msg"
+            android:visibility="gone"/>
+        
+        <android:TextView
+            android:id="@+id/previewName"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/vc_surface_text_height"
+            android:layout_alignParentBottom="true"
+            android:layout_gravity="top"
+            android:layout_marginBottom="@dimen/vc_surface_margin"
+            android:layout_marginLeft="@dimen/vc_surface_margin"
+            android:layout_marginRight="@dimen/vc_surface_margin"
+            android:background="@drawable/white_name_border"
+            android:gravity="center"
+            android:singleLine="true"
+            android:text="@string/title_me"
+            android:textColor="@android:color/white" />
+
+    </com.ooVoo.oovoosample.Common.ParticipantVideoSurface>
+
+    <com.ooVoo.oovoosample.Common.ParticipantVideoSurface
+        android:id="@+id/user1_layout_id"
+        android:layout_width="0px"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:visibility="invisible" >
+
+        <ImageView
+            android:id="@+id/user1Avatar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/vc_surface_margin"
+            android:src="@drawable/an_im_vc_place_holder" 
+            android:background="@color/image_holder_bg"/>
+
+        <android.opengl.GLSurfaceView
+            android:id="@+id/user1VideoSurface"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/vc_surface_margin"
+            android:visibility="invisible" />
+
+        <android:TextView
+            android:id="@+id/video_info"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="20dp"
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/vc_surface_margin"
+            android:background="@android:color/black"
+            android:gravity="center"
+            android:textColor="@android:color/white" 
+            android:text="@string/video_error_msg"
+            android:visibility="gone"/>
+        
+        <android:TextView
+            android:id="@+id/user1Name"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/vc_surface_text_height"
+            android:layout_alignParentBottom="true"
+            android:layout_gravity="top"
+            android:layout_marginBottom="@dimen/vc_surface_margin"
+            android:layout_marginLeft="@dimen/vc_surface_margin"
+            android:layout_marginRight="@dimen/vc_surface_margin"
+            android:background="@drawable/white_name_border"
+            android:textColor="@android:color/white"
+            android:visibility="invisible" 
+            android:singleLine="true"
+            android:gravity="center"/>
+    </com.ooVoo.oovoosample.Common.ParticipantVideoSurface>
+
+    <com.ooVoo.oovoosample.Common.ParticipantVideoSurface
+        android:id="@+id/user2_layout_id"
+        android:layout_width="0px"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:visibility="invisible" >
+
+        <ImageView
+            android:id="@+id/user2Avatar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/vc_surface_margin"
+            android:src="@drawable/an_im_vc_place_holder"
+            android:background="@color/image_holder_bg" />
+
+        <android.opengl.GLSurfaceView
+            android:id="@+id/user2VideoSurface"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/vc_surface_margin"
+            android:visibility="invisible" />
+
+         <android:TextView
+            android:id="@+id/video_info"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="20dp"
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/vc_surface_margin"
+            android:background="@android:color/black"
+            android:gravity="center"
+            android:textColor="@android:color/white" 
+            android:text="@string/video_error_msg"
+            android:visibility="gone"/>
+        <android:TextView
+            android:id="@+id/user2Name"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/vc_surface_text_height"
+           android:layout_alignParentBottom="true"
+            android:layout_gravity="top"
+            android:layout_marginBottom="@dimen/vc_surface_margin"
+            android:layout_marginLeft="@dimen/vc_surface_margin"
+            android:layout_marginRight="@dimen/vc_surface_margin"
+            android:background="@drawable/white_name_border"
+            android:textColor="@android:color/white"
+            android:visibility="invisible"
+            android:singleLine="true"
+            android:gravity="center" >
+        </android:TextView>
+    </com.ooVoo.oovoosample.Common.ParticipantVideoSurface>
+
+    <com.ooVoo.oovoosample.Common.ParticipantVideoSurface
+        android:id="@+id/user3_layout_id"
+        android:layout_width="0px"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:visibility="invisible" >
+
+        <ImageView
+            android:id="@+id/user3Avatar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/vc_surface_margin"
+            android:src="@drawable/an_im_vc_place_holder"
+            android:background="@color/image_holder_bg" />
+
+        <android.opengl.GLSurfaceView
+            android:id="@+id/user3VideoSurface"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/vc_surface_margin"
+            android:visibility="invisible" />
+
+         <android:TextView
+            android:id="@+id/video_info"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="20dp"
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/vc_surface_margin"
+            android:background="@android:color/black"
+            android:gravity="center"
+            android:textColor="@android:color/white" 
+            android:text="@string/video_error_msg"
+            android:visibility="gone"/>
+        
+        <android:TextView
+            android:id="@+id/user3Name"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/vc_surface_text_height"
+            android:layout_alignParentBottom="true"
+            android:layout_gravity="top"
+            android:layout_marginBottom="@dimen/vc_surface_margin"
+            android:layout_marginLeft="@dimen/vc_surface_margin"
+            android:layout_marginRight="@dimen/vc_surface_margin"
+            android:background="@drawable/white_name_border"
+            android:textColor="@android:color/white"
+            android:visibility="invisible" 
+            android:singleLine="true"
+            android:gravity="center">
+        </android:TextView>
+    </com.ooVoo.oovoosample.Common.ParticipantVideoSurface>
+
+</com.ooVoo.oovoosample.VideoCall.VCParticipantsController>

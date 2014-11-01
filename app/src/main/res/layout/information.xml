@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="@dimen/activity_padding" >
+
+    <TextView
+        android:id="@+id/sessionIdInformationLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="4dp"        
+        android:text="@string/sessionId"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    <TextView
+        android:id="@+id/sessionIdInformationValueLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/sessionIdInformationLabel"
+        android:layout_alignBottom="@+id/sessionIdInformationLabel"
+        android:layout_alignParentRight="true"
+        android:layout_toRightOf="@+id/sessionIdInformationLabel"
+        android:layout_marginLeft="4dp"
+        android:ems="9"
+        android:singleLine="true"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textIsSelectable="false" />
+
+    <TextView
+        android:id="@+id/activeUsersLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/sessionIdInformationLabel"
+        android:layout_below="@+id/sessionIdInformationValueLabel"
+        android:layout_marginTop="15dp"
+        android:text="@string/info_participants"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    <ListView
+        android:id="@+id/activeUsersList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/activeUsersLabel"       
+        android:layout_marginTop="15dp" >
+        
+    </ListView>
+
+</RelativeLayout>

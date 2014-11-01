@@ -1,0 +1,234 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    tools:context=".Settings.SettingsActivity"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp" >
+   
+    <LinearLayout
+        android:id="@+id/UrlGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:focusable="true"
+     	android:focusableInTouchMode="true"
+        android:layout_marginTop="20dp" >
+        
+        <TextView
+            android:id="@+id/baseUrlLabel"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="0.5"
+            android:text="@string/settings_base_url"
+            android:textAppearance="?android:attr/textAppearanceSmall"  />
+        
+	    <EditText
+	        android:id="@+id/baseUrlEditText"
+	        android:layout_width="0dp"
+	        android:layout_height="match_parent"
+	        android:layout_gravity="center_vertical"
+	        android:layout_weight="0.5" 
+	        android:ems="11"
+	        android:singleLine="true"
+	        android:inputType="textUri"
+	        android:imeOptions="actionDone"
+	        android:textAppearance="?android:attr/textAppearanceSmall"
+	        android:textIsSelectable="false" />
+    
+    </LinearLayout>
+    
+    <LinearLayout
+        android:id="@+id/AppIdGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:focusable="true"
+     	android:focusableInTouchMode="true"
+     	android:layout_below="@id/UrlGroup" 
+        android:layout_marginTop="20dp" >
+        
+        <TextView
+            android:id="@+id/appIdLabel"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="0.5"
+            android:text="@string/appId"
+            android:textAppearance="?android:attr/textAppearanceSmall"  />
+        
+	    <EditText
+	        android:id="@+id/appIdText"
+	        android:layout_width="0dp"
+	        android:layout_height="match_parent"
+	        android:layout_gravity="center_vertical"
+	        android:layout_weight="0.5" 
+	        android:ems="11"
+	        android:singleLine="true"
+	        android:inputType="textUri"
+	        android:imeOptions="actionDone"
+	        android:textAppearance="?android:attr/textAppearanceSmall"
+	        android:textIsSelectable="false" />
+    
+    </LinearLayout>
+    
+    <LinearLayout
+        android:id="@+id/TokenGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:focusable="true"
+     	android:focusableInTouchMode="true"
+     	android:layout_below="@id/AppIdGroup" 
+        android:layout_marginTop="20dp" >
+        
+        <TextView
+            android:id="@+id/tokenLabel"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="0.5"
+            android:text="@string/appToken"
+            android:textAppearance="?android:attr/textAppearanceSmall"  />
+        
+	    <EditText
+	        android:id="@+id/tokenText"
+	        android:layout_width="0dp"
+	        android:layout_height="match_parent"
+	        android:layout_gravity="center_vertical"
+	        android:layout_weight="0.5" 
+	        android:ems="11"
+	        android:singleLine="true"
+	        android:inputType="textUri"
+	        android:imeOptions="actionDone"
+	        android:textAppearance="?android:attr/textAppearanceSmall"
+	        android:textIsSelectable="false" />
+    
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/CamGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/TokenGroup" 
+        android:layout_marginTop="20dp" >
+
+        <TextView
+            android:id="@+id/cameraLabel"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="0.5"
+            android:text="@string/settings_camera"
+            android:textAppearance="?android:attr/textAppearanceSmall"  />
+
+        <Spinner
+            android:id="@+id/cameraSpinner"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="0.5" 
+            android:textAppearance="?android:attr/textAppearanceSmall"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/microphoneGrp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/CamGroup" 
+        android:layout_marginTop="20dp">
+
+        <TextView
+            android:id="@+id/microphoneLabel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="0.5"
+            android:text="@string/settings_mic" 
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+        <Spinner
+            android:id="@+id/microphoneSpinner"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5" 
+            android:layout_gravity="center_vertical"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/speakerGrp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/microphoneGrp" 
+        android:layout_marginTop="20dp">
+
+        <TextView
+            android:id="@+id/speakersLabel"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="0.5"
+            android:text="@string/settings_speaker" 
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+        <Spinner
+            android:id="@+id/speakersSpinner"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5" 
+            android:layout_gravity="center_vertical"
+            android:textAppearance="?android:attr/textAppearanceSmall"/>
+    </LinearLayout>
+   
+    <LinearLayout
+        android:id="@+id/logGrp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/speakerGrp"
+        android:layout_marginTop="20dp" >
+
+        <TextView
+            android:id="@+id/logLabel"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"            
+            android:layout_weight="0.5"
+            android:text="@string/log_level" 
+            android:layout_gravity="center_vertical"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+        <Spinner
+            android:id="@+id/logLevelSpinner"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5" 
+            android:layout_gravity="center_vertical"
+            android:textAppearance="?android:attr/textAppearanceSmall"/>
+    </LinearLayout>
+    
+    <LinearLayout
+        android:id="@+id/sdkGrp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/logGrp"
+        android:layout_marginTop="20dp" >
+
+        <TextView
+            android:id="@+id/sdkLabel"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"            
+            android:layout_weight="0.5"
+            android:text="@string/sdkVersion" 
+            android:layout_gravity="center_vertical"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+        <TextView
+            android:id="@+id/sdkVersionText"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5"
+            android:singleLine="true"
+            android:textIsSelectable="false" 
+            android:layout_gravity="center_vertical"
+            android:textAppearance="?android:attr/textAppearanceSmall"/>
+    </LinearLayout>
+
+</RelativeLayout>
