@@ -55,6 +55,9 @@
   <string name="message_button_send">"Send"</string>
   <string name="log_level">"SDK Log Level"</string>
   <string name="initialization_wait">"Initialization, please wait"</string>
-  
+    <string name="disconnect">Disconnect</string>
+    <string name="toggle_audio">Toggle Audio</string>
+    <string name="toggle_video">Toggle Video</string>
+
 
 </resources>

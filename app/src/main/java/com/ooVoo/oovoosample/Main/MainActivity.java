@@ -16,8 +16,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.media.AudioManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -26,6 +28,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -34,6 +37,9 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.google.android.glass.media.Sounds;
+import com.google.android.glass.touchpad.Gesture;
+import com.google.android.glass.touchpad.GestureDetector;
 import com.ooVoo.oovoosample.ConferenceManager;
 import com.ooVoo.oovoosample.ConferenceManager.SessionListener;
 import com.ooVoo.oovoosample.R;
@@ -63,6 +69,10 @@ public class MainActivity extends Activity implements OnClickListener,
 	private Boolean isInitialized = false;
 	private RenderViewData mRenderViewData = null;
 	private boolean isJoining = false;
+    public static boolean isGoogleGlass = false;
+
+    private GestureDetector glassGesture = null;
+
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -76,7 +86,14 @@ public class MainActivity extends Activity implements OnClickListener,
 	protected void initView() {
 		Log.i(TAG, "Setup views ->");
 		// Set layout
-		setContentView(R.layout.main);
+        int contentView = R.layout.main;
+        Log.d( TAG, "Device: " + Build.DEVICE);
+        if( "glass-1".equals(Build.DEVICE)) {
+            contentView = R.layout.glass;
+            isGoogleGlass = true;
+            glassGesture = setupGesture( this );
+        }
+		setContentView(contentView);
 		// Register for button press
 		Object obj = findViewById(R.id.joinButton1);
 		mJoinButton = (Button) obj;
@@ -91,15 +108,53 @@ public class MainActivity extends Activity implements OnClickListener,
 		mPreviewSurface.mVideoView = ((android.opengl.GLSurfaceView) findViewById(R.id.myVideoSurface));
 		
 		showAvatar();
-			
+
 		ActionBar ab = getActionBar();
 		if(ab != null){
-			ab.setIcon(R.drawable.ic_main);
-		}		
+            if( isGoogleGlass ) {
+                ab.hide();
+            } else {
+                ab.setIcon(R.drawable.ic_main);
+            }
+		}
+
 		Log.i(TAG, "<- Setup views");
 	}
-	
-	private void showAvatar() {
+
+    private GestureDetector setupGesture(final Context context) {
+        GestureDetector gestureDetector = new GestureDetector(context);
+        gestureDetector.setBaseListener( new GestureDetector.BaseListener() {
+            @Override
+            public boolean onGesture(Gesture gesture) {
+                if (gesture == Gesture.TAP)
+                {
+                    if( isInitialized ) {
+                        //play the tap sound
+                        ((AudioManager) getSystemService(context.AUDIO_SERVICE)).playSoundEffect(Sounds.TAP);
+                        //open the menu
+                        onClick(findViewById(R.id.joinButton1));
+                    } else {
+                        ((AudioManager) getSystemService(context.AUDIO_SERVICE)).playSoundEffect(Sounds.ERROR);
+                    }
+                    return true;
+                }
+                return false;
+            }
+        });
+
+        return gestureDetector;
+    }
+
+    @Override
+    public boolean onGenericMotionEvent(MotionEvent event) {
+        if( glassGesture != null  ) {
+            return glassGesture.onMotionEvent(event);
+        }
+
+        return super.onGenericMotionEvent(event);
+    }
+
+    private void showAvatar() {
 		mPreviewSurface.avatar.setVisibility(View.VISIBLE);
 	}
 	
@@ -111,9 +166,13 @@ public class MainActivity extends Activity implements OnClickListener,
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 	    MenuInflater inflater = getMenuInflater();
-	    inflater.inflate(R.menu.main_menu, menu);
-	    
-	    return true;
+        int mainMenu = R.menu.main_menu;
+        if( isGoogleGlass ) {
+            mainMenu = R.menu.glass_menu;
+        }
+        inflater.inflate(mainMenu, menu);
+
+        return true;
 	}
 	
 	@Override
@@ -130,6 +189,9 @@ public class MainActivity extends Activity implements OnClickListener,
 				startActivity(SettingsActivity.class);
 		
 				return true;
+            case R.id.menu_join:
+                onClick(findViewById(R.id.joinButton1));
+                return true;
 		}
 		return super.onOptionsItemSelected(item);
 	}
@@ -435,19 +497,14 @@ public class MainActivity extends Activity implements OnClickListener,
 
 	@Override
 	public void initSurfaces() {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void onFullModeChanged(int id) {
-		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void onMultiModeChanged() {
-		// TODO Auto-generated method stub
-		
 	}
 }

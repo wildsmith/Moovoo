@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:id="@+id/menu_disconnect"
+        android:showAsAction="always"
+        android:title="@string/disconnect"/>
+
+    <item
+        android:id="@+id/menu_toggle_mic"
+        android:showAsAction="always"
+        android:title="@string/toggle_audio"/>
+    <item
+        android:id="@+id/menu_toggle_video"
+        android:showAsAction="always"
+        android:title="@string/toggle_video"/>
+
+
+</menu>
