@@ -23,7 +23,6 @@ import android.view.WindowManager;
 import com.ooVoo.oovoosample.Common.AlertsManager;
 import com.ooVoo.oovoosample.Common.Participant;
 import com.ooVoo.oovoosample.Common.ParticipantHolder;
-import com.ooVoo.oovoosample.Common.ParticipantVideoSurface;
 import com.ooVoo.oovoosample.Common.ParticipantsManager;
 import com.ooVoo.oovoosample.Common.Utils;
 import com.ooVoo.oovoosample.Messenger.MessengerController;
@@ -1024,7 +1023,7 @@ public class ConferenceManager implements IConferenceCoreListener, ILoggerListen
 		addAlert("onPause", ConferenceCoreError.OK);
 	}
 
-	public void initSession(ParticipantVideoSurface[] mParticipantsVideoSurfaces)
+	public void initSession()
 	{
 		// Select devices
 		try

@@ -7,15 +7,12 @@
 //
 package com.ooVoo.oovoosample.VideoCall;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.hardware.Camera;
+import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -29,34 +26,39 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.ooVoo.oovoosample.ConferenceManager;
-import com.ooVoo.oovoosample.ConferenceManager.ParticipantSwitchListener;
-import com.ooVoo.oovoosample.ConferenceManager.SessionControlsListener;
-import com.ooVoo.oovoosample.ConferenceManager.SessionListener;
-import com.ooVoo.oovoosample.ConferenceManager.SessionParticipantsListener;
-import com.ooVoo.oovoosample.R;
-import com.ooVoo.oovoosample.SessionUIPresenter;
 import com.ooVoo.oovoosample.Alerts.AlertsActivity;
 import com.ooVoo.oovoosample.Common.AlertsManager;
-import com.ooVoo.oovoosample.Common.Participant;
 import com.ooVoo.oovoosample.Common.ParticipantHolder;
 import com.ooVoo.oovoosample.Common.ParticipantHolder.VideoParticipant;
 import com.ooVoo.oovoosample.Common.ParticipantVideoSurface;
 import com.ooVoo.oovoosample.Common.ParticipantVideoSurface.States;
 import com.ooVoo.oovoosample.Common.ParticipantsManager;
 import com.ooVoo.oovoosample.Common.Utils;
+import com.ooVoo.oovoosample.ConferenceManager;
+import com.ooVoo.oovoosample.ConferenceManager.ParticipantSwitchListener;
+import com.ooVoo.oovoosample.ConferenceManager.SessionControlsListener;
+import com.ooVoo.oovoosample.ConferenceManager.SessionListener;
+import com.ooVoo.oovoosample.ConferenceManager.SessionParticipantsListener;
 import com.ooVoo.oovoosample.Information.InformationActivity;
 import com.ooVoo.oovoosample.Messenger.MessengerActivity;
 import com.ooVoo.oovoosample.Messenger.MessengerController;
+import com.ooVoo.oovoosample.R;
+import com.ooVoo.oovoosample.SessionUIPresenter;
 import com.ooVoo.oovoosample.Settings.UserSettings;
 import com.oovoo.core.ConferenceCore;
 import com.oovoo.core.ConferenceCore.FrameSize;
 import com.oovoo.core.IConferenceCore.CameraResolutionLevel;
 import com.oovoo.core.IConferenceCore.ConferenceCoreError;
 import com.oovoo.core.device.deviceconfig.VideoFilterData;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
 
 // Video presenter entity
 public class VideoCallActivity extends Activity implements OnClickListener,
@@ -66,10 +68,10 @@ public class VideoCallActivity extends Activity implements OnClickListener,
 	private Boolean _initialized = false;
 	private ConferenceManager mConferenceManager = null;
 	private HashMap<Integer, ParticipantVideoSurface> _surfaces = new HashMap<Integer, ParticipantVideoSurface>();
-	private ParticipantVideoSurface mParticipantsVideoSurfaces[];
+    private List<ParticipantVideoSurface> mParticipantsVideoSurfaces = new ArrayList<ParticipantVideoSurface>(4);
+    private GLSurfaceView myVideoView;
 	private Spinner mResSpinner;
-	private VCParticipantsController mVCParticipantsController = null;
-	private Spinner mFilterSpinner; 
+	private Spinner mFilterSpinner;
 	private Button mBubbleButton;
 	private String mActiveFilterId;
 	private boolean isCameraMuted = false;
@@ -139,36 +141,9 @@ public class VideoCallActivity extends Activity implements OnClickListener,
 		});
 
 		Log.d(Utils.getOoVooTag(), "setting ParticipantVideoSurfaces");
-		mVCParticipantsController = (VCParticipantsController)findViewById(R.id.participants_controller);
-		
-		mParticipantsVideoSurfaces = new ParticipantVideoSurface[4];
-		mParticipantsVideoSurfaces[0] = (ParticipantVideoSurface)findViewById(R.id.preview_layout_id);
-		mParticipantsVideoSurfaces[0].avatar = ((ImageView) findViewById(R.id.myAvatar));
-		mParticipantsVideoSurfaces[0].nameBox = ((TextView) findViewById(R.id.previewName));
-		mParticipantsVideoSurfaces[0].mVideoView = ((android.opengl.GLSurfaceView) findViewById(R.id.myVideoSurface));
-		
-		mParticipantsVideoSurfaces[1] = (ParticipantVideoSurface)findViewById(R.id.user1_layout_id);
-		mParticipantsVideoSurfaces[1].avatar = ((ImageView) findViewById(R.id.user1Avatar));
-		mParticipantsVideoSurfaces[1].nameBox = ((TextView) findViewById(R.id.user1Name));
-		mParticipantsVideoSurfaces[1].mVideoView = ((android.opengl.GLSurfaceView) findViewById(R.id.user1VideoSurface));
 
-		mParticipantsVideoSurfaces[2] = (ParticipantVideoSurface)findViewById(R.id.user2_layout_id);
-		mParticipantsVideoSurfaces[2].avatar = ((ImageView) findViewById(R.id.user2Avatar));
-		mParticipantsVideoSurfaces[2].nameBox = ((TextView) findViewById(R.id.user2Name));
-		mParticipantsVideoSurfaces[2].mVideoView = ((android.opengl.GLSurfaceView) findViewById(R.id.user2VideoSurface));
+        createAndAddParticipantVideoSurface();
 
-		mParticipantsVideoSurfaces[3] = (ParticipantVideoSurface)findViewById(R.id.user3_layout_id);
-		mParticipantsVideoSurfaces[3].avatar = ((ImageView) findViewById(R.id.user3Avatar));
-		mParticipantsVideoSurfaces[3].nameBox = ((TextView) findViewById(R.id.user3Name));
-		mParticipantsVideoSurfaces[3].mVideoView = ((android.opengl.GLSurfaceView) findViewById(R.id.user3VideoSurface));
-		
-		mParticipantsVideoSurfaces[0].setOnTouchListener(this);
-		mParticipantsVideoSurfaces[1].setOnTouchListener(this);
-		mParticipantsVideoSurfaces[2].setOnTouchListener(this);
-		mParticipantsVideoSurfaces[3].setOnTouchListener(this);
-		
-		mVCParticipantsController.onResize();
-		
 		ActionBar ab = getActionBar();
 		if(ab != null){
 			ab.setHomeButtonEnabled(false);
@@ -216,8 +191,44 @@ public class VideoCallActivity extends Activity implements OnClickListener,
 
 		showMessagesButton();
 	}
-	
-	private void showMessagesButton() {
+
+    private ParticipantVideoSurface createAndAddParticipantVideoSurface() {
+        ParticipantVideoSurface participantsVideoSurface = setupParticipantVideoSurface();
+
+        if (mParticipantsVideoSurfaces.size() == 0) {
+            myVideoView = participantsVideoSurface.mVideoView;
+        }
+
+        mParticipantsVideoSurfaces.add(participantsVideoSurface);
+
+        return participantsVideoSurface;
+    }
+
+    private ParticipantVideoSurface setupParticipantVideoSurface() {
+        View view = getLayoutInflater().inflate(R.layout.video_call_surface, null);
+
+        ParticipantVideoSurface participantsVideoSurface = (ParticipantVideoSurface) view.findViewById(R.id.participant_video_surface);
+
+        participantsVideoSurface.avatar = (ImageView) participantsVideoSurface.findViewById(R.id.avatar);
+        participantsVideoSurface.nameBox = (TextView) participantsVideoSurface.findViewById(R.id.name);
+        participantsVideoSurface.mVideoView = (android.opengl.GLSurfaceView) participantsVideoSurface.findViewById(R.id.videoSurface);
+
+        participantsVideoSurface.setOnTouchListener(this);
+
+        LinearLayout videoCallSurfaces = (LinearLayout) findViewById(R.id.video_call_surfaces);
+        videoCallSurfaces.addView(view);
+
+        return participantsVideoSurface;
+    }
+
+    private void removeParticipantVideoSurface(ParticipantVideoSurface participantsVideoSurface) {
+        mParticipantsVideoSurfaces.remove(participantsVideoSurface);
+
+        LinearLayout videoCallSurfaces = (LinearLayout) findViewById(R.id.video_call_surfaces);
+        videoCallSurfaces.removeView(participantsVideoSurface);
+    }
+
+    private void showMessagesButton() {
 		if (mConferenceManager.inCallMessagesPermitted()) {
 			mFilterSpinner.setVisibility(View.GONE);
 			mBubbleButton.setVisibility(View.VISIBLE);
@@ -346,13 +357,15 @@ public class VideoCallActivity extends Activity implements OnClickListener,
 		}
 
 		final Button btn = (Button) (findViewById(R.id.cameraButton));
-		final SurfaceView myVideoSurface = ((SurfaceView) findViewById(R.id.myVideoSurface));
-		
+
 		int new_v = isMuted ? SurfaceView.INVISIBLE : SurfaceView.VISIBLE;
 		btn.setSelected(isMuted ? true : false);
-		myVideoSurface.setVisibility(new_v);
-		ParticipantVideoSurface surface = _surfaces.get(myVideoSurface.getId());
-		if (surface != null) {
+
+        ParticipantVideoSurface surface = mParticipantsVideoSurfaces.get(0);
+
+        if (surface != null) {
+            surface.mVideoView.setVisibility(new_v);
+
 			States state = isMuted ? States.STATE_AVATAR : States.STATE_VIDEO;
 			surface.setState(state);
 			
@@ -492,7 +505,7 @@ public class VideoCallActivity extends Activity implements OnClickListener,
 		fireSpeakersMuted( mConferenceManager.isSpeakerMuted());
 	}
 
-	public synchronized void initSession(ParticipantVideoSurface[] mParticipantsVideoSurfaces) {
+	public synchronized void initSession(List<ParticipantVideoSurface> mParticipantsVideoSurfaces) {
 		// Select devices
 		try {
 			mConferenceManager.addSessionListener(this);
@@ -501,12 +514,13 @@ public class VideoCallActivity extends Activity implements OnClickListener,
 
 			ParticipantsManager mParticipantsManager = mConferenceManager.getParticipantsManager();
 			_surfaces.clear();
-			Log.i(Utils.getOoVooTag(), "VideoCallActivity :: initSession -> mParticipantsVideoSurfaces length = " + mParticipantsVideoSurfaces.length );
-			for (int i = 0; i < mParticipantsVideoSurfaces.length; i++) {
-				mParticipantsManager.getHolder().addGLView(mParticipantsVideoSurfaces[i].mVideoView.getId());
-				_surfaces.put(mParticipantsVideoSurfaces[i].mVideoView.getId(), mParticipantsVideoSurfaces[i]);
+			Log.i(Utils.getOoVooTag(), "VideoCallActivity :: initSession -> mParticipantsVideoSurfaces length = " +
+                                       mParticipantsVideoSurfaces.size() );
+			for (int i = 0; i < mParticipantsVideoSurfaces.size(); i++) {
+				mParticipantsManager.getHolder().addGLView(mParticipantsVideoSurfaces.get(i).mVideoView.getId());
+				_surfaces.put(mParticipantsVideoSurfaces.get(i).mVideoView.getId(), mParticipantsVideoSurfaces.get(i));
 			}
-			mConferenceManager.initSession(mParticipantsVideoSurfaces);
+			mConferenceManager.initSession();
 			mConferenceManager.setUIReadyState(true);
 		} catch (Exception e) {
 			Log.e(Utils.getOoVooTag(), "", e);
@@ -519,9 +533,9 @@ public class VideoCallActivity extends Activity implements OnClickListener,
 			@Override
 			public void run() {
 				Log.i(Utils.getOoVooTag(), "VideoCallActivity :: " + sParticipantId +" joined to conference;  {participantViewId = " + participantViewId +" }");
-				if (participantViewId != -1 && _surfaces != null) {
-					ParticipantVideoSurface surface = _surfaces.get(participantViewId);
-					if (surface != null) {
+                if (participantViewId != -1) {
+                    ParticipantVideoSurface surface = createAndAddParticipantVideoSurface();
+				    if (_surfaces != null) {
 						surface.setVisibility(View.VISIBLE);
 						surface.showAvatar();
 						surface.setName(sOpaqueString);
@@ -534,8 +548,6 @@ public class VideoCallActivity extends Activity implements OnClickListener,
 							ConferenceCore.instance().receiveParticipantVideoOn(sParticipantId);
 						}
 					}
-
-					mVCParticipantsController.onResize();
 				}
 			}
 		});
@@ -698,7 +710,8 @@ public class VideoCallActivity extends Activity implements OnClickListener,
 						surface.showEmptyCell();
 						surface.setState(States.STATE_EMPTY);
 					}
-					mVCParticipantsController.onResize();
+
+                    removeParticipantVideoSurface(surface);
 				}
 			}
 		});
@@ -767,14 +780,13 @@ public class VideoCallActivity extends Activity implements OnClickListener,
 							surfaceHolder.hideSurface();
 							surfaceHolder.setVisibility(View.INVISIBLE);
 						}	
-						if (surfaceHolder.getVisibility() == View.VISIBLE && 
-							surfaceHolder.mVideoView.getId() == R.id.myVideoSurface) {
+						if (surfaceHolder.getVisibility() == View.VISIBLE && surfaceHolder.mVideoView.getId() == myVideoView.getId()) {
 							showFiltersButton();
 						}
 					}
 				}
 
-				mVCParticipantsController.onModeUpdated(VCParticipantsController.FULL_MODE);
+//				mVCParticipantsController.onModeUpdated(VCParticipantsController.FULL_MODE);
 			}
 		});
 	}
@@ -814,7 +826,7 @@ public class VideoCallActivity extends Activity implements OnClickListener,
 					}
 				}
 				showMessagesButton();
-				mVCParticipantsController.onModeUpdated(VCParticipantsController.MULTI_MODE);
+//				mVCParticipantsController.onModeUpdated(VCParticipantsController.MULTI_MODE);
 			}
 		});
 	}

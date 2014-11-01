@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.ooVoo.oovoosample.Common.ParticipantVideoSurface
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/participant_video_surface"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+    <ImageView
+            android:id="@+id/avatar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/vc_surface_margin"
+            android:src="@drawable/an_im_vc_place_holder"
+            android:background="@color/image_holder_bg"/>
+
+    <android.opengl.GLSurfaceView
+            android:id="@+id/videoSurface"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/vc_surface_margin"/>
+
+    <TextView
+            android:id="@+id/videoInfo"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="20dp"
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/vc_surface_margin"
+            android:background="@android:color/black"
+            android:gravity="center"
+            android:textColor="@android:color/white"
+            android:text="@string/video_error_msg"
+            android:visibility="gone"/>
+
+    <TextView
+            android:id="@+id/name"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/vc_surface_text_height"
+            android:layout_alignParentBottom="true"
+            android:layout_gravity="top"
+            android:layout_marginBottom="@dimen/vc_surface_margin"
+            android:layout_marginLeft="@dimen/vc_surface_margin"
+            android:layout_marginRight="@dimen/vc_surface_margin"
+            android:background="@drawable/white_name_border"
+            android:textColor="@android:color/white"
+            android:visibility="invisible"
+            android:singleLine="true"
+            android:gravity="center"/>
+</com.ooVoo.oovoosample.Common.ParticipantVideoSurface>
