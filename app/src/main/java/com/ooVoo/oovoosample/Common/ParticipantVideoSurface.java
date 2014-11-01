@@ -98,8 +98,7 @@ public class ParticipantVideoSurface extends FrameLayout {
 		nameBox.setText(nameToShow);
 	}
 
-	public void moveTo(float toXDelta, float toYDelta,
-			float toWidth, float toHeight) {
+	public void moveTo(float toXDelta, float toYDelta, float toWidth, float toHeight) {
 		DynamicAbsoluteLayout.LayoutParams view_params = (DynamicAbsoluteLayout.LayoutParams) getLayoutParams();
 		view_params.x = (int) toXDelta;
 		view_params.y = (int) toYDelta;
