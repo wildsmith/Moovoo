@@ -77,7 +77,7 @@ public class VideoCallActivity extends Activity implements OnClickListener,
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+		// setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		mConferenceManager = ConferenceManager.getInstance(getApplicationContext());
 		Log.d(Utils.getOoVooTag(), "savedInstanceState is null: " + (savedInstanceState == null));
 		mActiveFilterId = mConferenceManager.getActiveFilter();
