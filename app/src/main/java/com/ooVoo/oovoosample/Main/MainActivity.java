@@ -21,6 +21,7 @@ import android.media.AudioManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.opengl.Visibility;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -76,6 +77,8 @@ public class MainActivity extends Activity implements OnClickListener,
 
     private GestureDetector glassGesture = null;
 
+    public static boolean isMoverio = false;
+
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -91,8 +94,20 @@ public class MainActivity extends Activity implements OnClickListener,
 	protected void initView() {
 		Log.i(TAG, "Setup views ->");
 
+
+        isMoverio = "embt2".equals(Build.DEVICE);
+
         // Set layout
-        setContentView(R.layout.main);
+        int contentView = R.layout.main;
+        Log.d( TAG, "Device: " + Build.DEVICE);
+
+        if( "glass-1".equals(Build.DEVICE)) {
+            contentView = R.layout.glass;
+            isGoogleGlass = true;
+            glassGesture = setupGesture( this );
+        }
+        setContentView(contentView);
+
         Object obj = findViewById(R.id.joinButton1);
         mJoinButton = (Button) obj;
         mJoinButton.setOnClickListener(this);
@@ -109,7 +124,11 @@ public class MainActivity extends Activity implements OnClickListener,
 
         ActionBar ab = getActionBar();
         if(ab != null){
-            ab.setIcon(R.drawable.ic_main);
+            if( isGoogleGlass ) {
+                ab.hide();
+            } else {
+                ab.setIcon(R.drawable.ic_launcher);
+            }
         }
         Log.i(TAG, "<- Setup views");
         if (!hasCamera) {
