@@ -47,39 +47,6 @@
         android:inputType="text"
         android:singleLine="true" 
         android:textAppearance="?android:attr/textAppearanceSmall" />
-    
-    <!-- <TextView
-        android:id="@+id/UserIDLabel"
-        android:layout_width="@dimen/main_row_label_width"
-        android:layout_height="@dimen/main_row_height"
-        android:layout_alignLeft="@+id/avsIpLabel"
-        android:layout_below="@+id/appIdLabel"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="19dp"
-        android:text="@string/usrID"
-        android:textAppearance="?android:attr/textAppearanceSmall" /> -->
-
-    <!-- <TextView
-        android:id="@+id/UserIDText"
-        android:layout_width="@dimen/main_row_label_width"
-        android:layout_height="@dimen/main_row_height"
-        android:layout_alignBaseline="@+id/UserIDLabel"
-        android:layout_alignBottom="@+id/UserIDLabel"
-        android:layout_alignParentRight="true"
-        android:ems="10"
-        android:inputType="text"
-        android:singleLine="true" />
- -->
-    <!-- <TextView
-        android:id="@+id/avsIpLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/UserIDText"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="18dp"
-        android:text="@string/avsIp"
-        android:textAppearance="?android:attr/textAppearanceSmall" /> -->
 
 	<com.ooVoo.oovoosample.Common.ParticipantVideoSurface
 	        android:id="@+id/preview_layout_id"

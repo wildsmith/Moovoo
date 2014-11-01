@@ -15,11 +15,12 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.media.AudioManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.Build;
+import android.opengl.Visibility;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -60,16 +61,18 @@ public class MainActivity extends Activity implements OnClickListener,
 		SessionListener, SessionUIPresenter {
 
 	private static final String TAG = MainActivity.class.getName();
-	private ConferenceManager mConferenceManager = null;
+    public final static String EXTRA_MESSAGE = "com.ooVoo.hasCamera.message";
+    private ConferenceManager mConferenceManager = null;
 	private EditText mSessionIdView = null;
 	private EditText mDisplayNameView = null;
 	private Button mJoinButton = null;
-	private ProgressDialog mWaitingDialog = null;
+    private ProgressDialog mWaitingDialog = null;
 	private ParticipantVideoSurface mPreviewSurface;
 	private Boolean isInitialized = false;
 	private RenderViewData mRenderViewData = null;
 	private boolean isJoining = false;
     public static boolean isGoogleGlass = false;
+    private boolean hasCamera = false;
 
     private GestureDetector glassGesture = null;
 
@@ -77,48 +80,42 @@ public class MainActivity extends Activity implements OnClickListener,
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		// setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-
+		// setRequestedOjava.lang.Stringrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        if (this.getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA)) {
+            hasCamera = true;
+        }
 		initView();
 		initConferenceManager();
 	}
 
 	protected void initView() {
 		Log.i(TAG, "Setup views ->");
-		// Set layout
-        int contentView = R.layout.main;
-        Log.d( TAG, "Device: " + Build.DEVICE);
-        if( "glass-1".equals(Build.DEVICE)) {
-            contentView = R.layout.glass;
-            isGoogleGlass = true;
-            glassGesture = setupGesture( this );
+
+        // Set layout
+        setContentView(R.layout.main);
+        Object obj = findViewById(R.id.joinButton1);
+        mJoinButton = (Button) obj;
+        mJoinButton.setOnClickListener(this);
+        mJoinButton.setEnabled(false);
+
+        // Retrieve and display SDK version
+        mSessionIdView = (EditText) findViewById(R.id.sessionIdText);
+        mDisplayNameView = (EditText) findViewById(R.id.displayNameText);
+        mPreviewSurface = (ParticipantVideoSurface)findViewById(R.id.preview_layout_id);
+        mPreviewSurface.avatar = ((ImageView) findViewById(R.id.myAvatar));
+        mPreviewSurface.mVideoView = ((android.opengl.GLSurfaceView) findViewById(R.id.myVideoSurface));
+
+        showAvatar();
+
+        ActionBar ab = getActionBar();
+        if(ab != null){
+            ab.setIcon(R.drawable.ic_main);
         }
-		setContentView(contentView);
-		// Register for button press
-		Object obj = findViewById(R.id.joinButton1);
-		mJoinButton = (Button) obj;
-		mJoinButton.setOnClickListener(this);
-		mJoinButton.setEnabled(false);
-		
-		// Retrieve and display SDK version
-		mSessionIdView = (EditText) findViewById(R.id.sessionIdText);
-		mDisplayNameView = (EditText) findViewById(R.id.displayNameText);
-		mPreviewSurface = (ParticipantVideoSurface)findViewById(R.id.preview_layout_id);
-		mPreviewSurface.avatar = ((ImageView) findViewById(R.id.myAvatar));
-		mPreviewSurface.mVideoView = ((android.opengl.GLSurfaceView) findViewById(R.id.myVideoSurface));
-		
-		showAvatar();
-
-		ActionBar ab = getActionBar();
-		if(ab != null){
-            if( isGoogleGlass ) {
-                ab.hide();
-            } else {
-                ab.setIcon(R.drawable.ic_main);
-            }
-		}
-
-		Log.i(TAG, "<- Setup views");
+        Log.i(TAG, "<- Setup views");
+        if (!hasCamera) {
+            // Register for button press
+            mPreviewSurface.setVisibility(View.GONE);
+        }
 	}
 
     private GestureDetector setupGesture(final Context context) {
@@ -240,25 +237,39 @@ public class MainActivity extends Activity implements OnClickListener,
 	public void onClick(View v) {	
 		if(v == null)
 			return;
-		
+
 		if (!isOnline()) {
 			Utils.ShowMessageBox(this, "Network Error",
 					"No Internet Connection. Please check your internet connection or try again later.");
 			return;
 		}
-		
+
 		switch(v.getId()){
 			case R.id.joinButton1:
 
 				if (mConferenceManager.isSdkInitialized()) {
 					onJoinSession();
 				} else {
-					Toast.makeText(getApplicationContext(), R.string.initialization_wait, Toast.LENGTH_SHORT).show();			    
+					Toast.makeText(getApplicationContext(), R.string.initialization_wait, Toast.LENGTH_SHORT).show();
 				    initConferenceManager();
 				}
 				break;
 		}
 	}
+
+    private void launchConference(){
+        if (!isOnline()) {
+            Utils.ShowMessageBox(this, "Network Error",
+                    "No Internet Connection. Please check your internet connection or try again later.");
+            return;
+        }
+        if (mConferenceManager.isSdkInitialized()) {
+            onJoinSession();
+        } else {
+            Toast.makeText(getApplicationContext(), R.string.initialization_wait, Toast.LENGTH_SHORT).show();
+            initConferenceManager();
+        }
+    }
 	
 	private synchronized void onJoinSession() {
 		
@@ -315,6 +326,9 @@ public class MainActivity extends Activity implements OnClickListener,
 				mConferenceManager.resumePreviewSession();
 				
 				mJoinButton.setEnabled(true);
+                if (!hasCamera) {
+                    mJoinButton.callOnClick();
+                }
 			}
 			
 		} catch (Exception e) {
@@ -375,7 +389,7 @@ public class MainActivity extends Activity implements OnClickListener,
 		runOnUiThread(new Runnable() {
 			@Override
 			public void run() {				
-				hideWaitingMessage(); 
+				hideWaitingMessage();
 				startActivity(VideoCallActivity.class);
 			}
 		});
@@ -400,13 +414,17 @@ public class MainActivity extends Activity implements OnClickListener,
 		} catch (Exception ex) {
 		}
 	}
-	
+
 	// Start a new activity using the requested effects
 	private void startActivity(Class<?> activityToStart) {
 		// Maybe should use this flag just for Video Call activity?
 		Intent myIntent = new Intent(this, activityToStart);
 		myIntent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        myIntent.putExtra(EXTRA_MESSAGE, hasCamera);
 		startActivity(myIntent);
+        if (activityToStart == VideoCallActivity.class){
+            finish();
+        }
 	}
 
 	public void showErrorMessage(final String titleToShow,
@@ -474,8 +492,10 @@ public class MainActivity extends Activity implements OnClickListener,
 	        		mConferenceManager.resumePreviewSession();
 	        		
 					isInitialized = true;
-					mJoinButton.setEnabled(true);
-					
+                    mJoinButton.setEnabled(true);
+                    if (!hasCamera) {
+                        mJoinButton.callOnClick();
+                    }
 				} catch (Exception e) {
 					Log.e(TAG, "", e);
 				}

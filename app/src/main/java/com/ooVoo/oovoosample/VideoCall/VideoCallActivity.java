@@ -87,9 +87,13 @@ public class VideoCallActivity extends Activity implements OnClickListener,
 
     private GestureDetector gestureDetector;
 
+	private boolean hasCamera = false;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+        Intent intent = getIntent();
+        String message = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
+        hasCamera = Boolean.getBoolean(message);
 		// setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		mConferenceManager = ConferenceManager.getInstance(getApplicationContext());
 		Log.d(Utils.getOoVooTag(), "savedInstanceState is null: " + (savedInstanceState == null));
@@ -173,6 +177,7 @@ public class VideoCallActivity extends Activity implements OnClickListener,
 		mVCParticipantsController = (VCParticipantsController)findViewById(R.id.participants_controller);
 		
 		mParticipantsVideoSurfaces = new ParticipantVideoSurface[4];
+
 		mParticipantsVideoSurfaces[0] = (ParticipantVideoSurface)findViewById(R.id.preview_layout_id);
 		mParticipantsVideoSurfaces[0].avatar = ((ImageView) findViewById(R.id.myAvatar));
 		mParticipantsVideoSurfaces[0].nameBox = ((TextView) findViewById(R.id.previewName));

@@ -83,7 +83,7 @@ public class ParticipantsManager{
 		List<Participant> plist = new ArrayList<Participant>();
 		
 		for( VideoParticipant participant: participants) {
-			plist.add( new Participant(participant.getParticipantId(), participant.getOpaqueString(), _pholder.isVideoOn(participant.getParticipantId())));
+            plist.add( new Participant(participant.getParticipantId(), participant.getOpaqueString(), _pholder.isVideoOn(participant.getParticipantId())));
 		}
 		Collections.sort(plist, mParticipantComparator);
 		return plist;
