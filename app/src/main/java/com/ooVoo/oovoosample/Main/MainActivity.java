@@ -7,6 +7,8 @@
 //
 package com.ooVoo.oovoosample.Main;
 
+import android.accounts.Account;
+import android.accounts.AccountManager;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -43,6 +45,7 @@ import com.ooVoo.oovoosample.Common.ParticipantsManager;
 import com.ooVoo.oovoosample.Common.Utils;
 import com.ooVoo.oovoosample.Settings.SettingsActivity;
 import com.ooVoo.oovoosample.Settings.UserSettings;
+import com.ooVoo.oovoosample.UserEmailFetcher;
 import com.ooVoo.oovoosample.VideoCall.VideoCallActivity;
 import com.oovoo.core.IConferenceCore.ConferenceCoreError;
 
@@ -64,7 +67,7 @@ public class MainActivity extends Activity implements OnClickListener,
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+		// setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
 		initView();
 		initConferenceManager();
@@ -83,7 +86,6 @@ public class MainActivity extends Activity implements OnClickListener,
 		// Retrieve and display SDK version
 		mSessionIdView = (EditText) findViewById(R.id.sessionIdText);
 		mDisplayNameView = (EditText) findViewById(R.id.displayNameText);
-		
 		mPreviewSurface = (ParticipantVideoSurface)findViewById(R.id.preview_layout_id);
 		mPreviewSurface.avatar = ((ImageView) findViewById(R.id.myAvatar));
 		mPreviewSurface.mVideoView = ((android.opengl.GLSurfaceView) findViewById(R.id.myVideoSurface));
