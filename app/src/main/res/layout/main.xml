@@ -9,7 +9,8 @@
         android:layout_height="@dimen/main_row_height"
         android:layout_marginTop="10dp"
         android:text="@string/sessionId"
-        android:textAppearance="?android:attr/textAppearanceSmall" />
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:visibility="gone" />
 
     <EditText
         android:id="@+id/sessionIdText"
@@ -21,7 +22,8 @@
         android:ems="5"
         android:inputType="text"
         android:singleLine="true"
-        android:textAppearance="?android:attr/textAppearanceSmall"  />
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:visibility="gone" />
     
     <TextView
         android:id="@+id/displayNameLabel"
