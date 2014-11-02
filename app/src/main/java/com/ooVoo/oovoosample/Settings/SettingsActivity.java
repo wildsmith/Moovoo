@@ -35,7 +35,6 @@ public class SettingsActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		mConferenceManager = ConferenceManager.getInstance(getApplicationContext());	
 		initView();		
 	}
@@ -54,9 +53,6 @@ public class SettingsActivity extends Activity {
 			ab.setDisplayUseLogoEnabled(false);
 			ab.setIcon(R.drawable.menu_ic_settings);
 		}
-		
-		mAppIdView = (EditText) findViewById(R.id.appIdText);
-		mTokenTextView = (EditText) findViewById(R.id.tokenText);
 	}
 	
 	@Override
@@ -84,7 +80,9 @@ public class SettingsActivity extends Activity {
 	private MediaDeviceWrapper getSelectedSpinnerValue(Spinner spinner) {
 		return ((MediaDeviceWrapper) spinner.getSelectedItem());
 	}
-
+    String baseUrl;
+    String appId;
+    String appToken;
 	@Override
 	protected void onResume() {
 		// Read & display user settings
@@ -93,11 +91,9 @@ public class SettingsActivity extends Activity {
 		// Read settings
 		UserSettings settings = mConferenceManager.retrieveSettings();
 
-		EditText baseUrl = (EditText) findViewById(R.id.baseUrlEditText);
-		baseUrl.setText(settings.BaseURL);
-		
-		mAppIdView.setText(settings.AppId);
-		mTokenTextView.setText(settings.AppToken);
+		baseUrl = settings.BaseURL;
+        appId = settings.AppId;
+        appToken = settings.AppToken;
 		
 		// Fill spinners - get devices from model
 		Spinner cameraSpinner = (Spinner) findViewById(R.id.cameraSpinner);
@@ -143,24 +139,19 @@ public class SettingsActivity extends Activity {
 		super.onPause();
 
 		// Persist changes
-		EditText baseUrl = (EditText) findViewById(R.id.baseUrlEditText);
 		Spinner cameraSpinner = (Spinner) findViewById(R.id.cameraSpinner);
 		Spinner microphoneSpinner = (Spinner) findViewById(R.id.microphoneSpinner);
 		Spinner speakersSpinner = (Spinner) findViewById(R.id.speakersSpinner);
 		Spinner logSpinner = (Spinner)findViewById(R.id.logLevelSpinner);
 		
 		UserSettings settingsToPersist = mConferenceManager.retrieveSettings();
+        String logLevel = (String) logSpinner.getSelectedItem();
 		
-		String baseUrlStr = baseUrl.getText().toString();
-		String appId = mAppIdView.getText().toString();
-		String appToken = mTokenTextView.getText().toString();
-		String logLevel = (String) logSpinner.getSelectedItem();
-		
-		if (!settingsToPersist.BaseURL.equalsIgnoreCase(baseUrlStr) ||
+		if (!settingsToPersist.BaseURL.equalsIgnoreCase(baseUrl) ||
 			!settingsToPersist.AppId.equals(appId) ||
 			!settingsToPersist.AppToken.equals(appToken)) {
 			
-			settingsToPersist.BaseURL = baseUrlStr;
+			settingsToPersist.BaseURL = baseUrl;
 			settingsToPersist.AppId = appId;
 			settingsToPersist.AppToken = appToken;
 			

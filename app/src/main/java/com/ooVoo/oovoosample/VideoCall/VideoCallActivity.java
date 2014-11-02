@@ -13,10 +13,13 @@ import java.util.HashMap;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.hardware.Camera;
+import android.media.AudioManager;
 import android.os.Bundle;
+import android.os.PowerManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -32,11 +35,15 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.google.android.glass.media.Sounds;
+import com.google.android.glass.touchpad.Gesture;
+import com.google.android.glass.touchpad.GestureDetector;
 import com.ooVoo.oovoosample.ConferenceManager;
 import com.ooVoo.oovoosample.ConferenceManager.ParticipantSwitchListener;
 import com.ooVoo.oovoosample.ConferenceManager.SessionControlsListener;
 import com.ooVoo.oovoosample.ConferenceManager.SessionListener;
 import com.ooVoo.oovoosample.ConferenceManager.SessionParticipantsListener;
+import com.ooVoo.oovoosample.Main.MainActivity;
 import com.ooVoo.oovoosample.R;
 import com.ooVoo.oovoosample.SessionUIPresenter;
 import com.ooVoo.oovoosample.Alerts.AlertsActivity;
@@ -58,6 +65,8 @@ import com.oovoo.core.IConferenceCore.CameraResolutionLevel;
 import com.oovoo.core.IConferenceCore.ConferenceCoreError;
 import com.oovoo.core.device.deviceconfig.VideoFilterData;
 
+
+
 // Video presenter entity
 public class VideoCallActivity extends Activity implements OnClickListener,
 		SessionControlsListener, SessionListener, SessionParticipantsListener,
@@ -73,19 +82,45 @@ public class VideoCallActivity extends Activity implements OnClickListener,
 	private Button mBubbleButton;
 	private String mActiveFilterId;
 	private boolean isCameraMuted = false;
-	
+
+    private PowerManager.WakeLock wl;
+
+    private GestureDetector gestureDetector;
+
+	private boolean hasCamera = false;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+        Intent intent = getIntent();
+        String message = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
+        hasCamera = Boolean.getBoolean(message);
 		// setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		mConferenceManager = ConferenceManager.getInstance(getApplicationContext());
 		Log.d(Utils.getOoVooTag(), "savedInstanceState is null: " + (savedInstanceState == null));
 		mActiveFilterId = mConferenceManager.getActiveFilter();
 		mConferenceManager.setParticipantSwitchListener(this);
 		initView();
+
+
+        if( MainActivity.isGoogleGlass ) {
+            findViewById(R.id.devicesControlLayout).setVisibility(View.GONE);
+            ActionBar ab = getActionBar();
+            gestureDetector = setupGesture(this);
+            if( ab != null ) {
+                ab.hide();
+            }
+        }
 	}
 
-	protected void initView() {
+    @Override
+    public boolean onGenericMotionEvent(MotionEvent event) {
+        if( gestureDetector != null ) {
+            return gestureDetector.onMotionEvent(event);
+        }
+        return super.onGenericMotionEvent(event);
+    }
+
+    protected void initView() {
 		// Set layout
 		setContentView(R.layout.video_call);
 		
@@ -142,6 +177,7 @@ public class VideoCallActivity extends Activity implements OnClickListener,
 		mVCParticipantsController = (VCParticipantsController)findViewById(R.id.participants_controller);
 		
 		mParticipantsVideoSurfaces = new ParticipantVideoSurface[4];
+
 		mParticipantsVideoSurfaces[0] = (ParticipantVideoSurface)findViewById(R.id.preview_layout_id);
 		mParticipantsVideoSurfaces[0].avatar = ((ImageView) findViewById(R.id.myAvatar));
 		mParticipantsVideoSurfaces[0].nameBox = ((TextView) findViewById(R.id.previewName));
@@ -170,7 +206,7 @@ public class VideoCallActivity extends Activity implements OnClickListener,
 		mVCParticipantsController.onResize();
 		
 		ActionBar ab = getActionBar();
-		if(ab != null){
+		if(ab != null && !MainActivity.isGoogleGlass ){
 			ab.setHomeButtonEnabled(false);
 			ab.setDisplayShowTitleEnabled(true);
 			ab.setDisplayShowHomeEnabled(true);
@@ -234,7 +270,11 @@ public class VideoCallActivity extends Activity implements OnClickListener,
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 	    MenuInflater inflater = getMenuInflater();
-	    inflater.inflate(R.menu.vc_menu, menu);
+        int menuId=R.menu.vc_menu;
+        if( MainActivity.isGoogleGlass ) {
+            menuId = R.menu.glass_vc;
+        }
+	    inflater.inflate(menuId, menu);
 	    return true;
 	}
 
@@ -254,7 +294,17 @@ public class VideoCallActivity extends Activity implements OnClickListener,
 			case R.id.menu_alerts:
 				openAlertsView();
 				return true;
-		}
+            case R.id.menu_toggle_mic:
+                onClick(findViewById(R.id.microphoneButton));
+                return true;
+            case R.id.menu_toggle_video:
+                onClick(findViewById(R.id.cameraButton));
+                return true;
+            case R.id.menu_disconnect:
+                onClick(findViewById(R.id.endOfCallButton));
+                return true;
+        }
+
 		return super.onOptionsItemSelected(item);
 	}
 
@@ -266,7 +316,26 @@ public class VideoCallActivity extends Activity implements OnClickListener,
 		myIntent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
 		startActivity(myIntent);
 	}
-	
+
+    private GestureDetector setupGesture(final Context context) {
+        GestureDetector gestureDetector = new GestureDetector(context);
+        gestureDetector.setBaseListener( new GestureDetector.BaseListener() {
+            @Override
+            public boolean onGesture(Gesture gesture) {
+                if (gesture == Gesture.TAP){
+                        //play the tap sound
+                        ((AudioManager) getSystemService(context.AUDIO_SERVICE)).playSoundEffect(Sounds.TAP);
+                        //open the menu
+                        openOptionsMenu();
+                        return true;
+                }
+                return false;
+            }
+        });
+
+        return gestureDetector;
+    }
+
 	private void openMessengerView() {
 		startActivity(MessengerActivity.class);
 	}
